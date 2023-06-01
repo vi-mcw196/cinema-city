@@ -15,3 +15,7 @@ Income Expenses API
 6. Migrate existing db tables by running `python manage.py migrate`
 
 7. Run the django development server using `python manage.py runserver`
+
+
+## DB schema
+![](readme_img/db_schema.png)
