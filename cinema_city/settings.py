@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'authentication',
-    'expenses',
-    'income',
+    'cinema_halls',
+    'movies',
+    'notifications',
+    'reservations',
 ]
 
 SWAGGER_SETTINGS = {
