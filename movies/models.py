@@ -3,12 +3,12 @@ from django.db import models
 
 # Create your models here.
 class Movie(models.Model):
-    class Category(models.IntegerChoices):
-        HORROR = 1, 'HORROR'
-        ACTION = 2, 'ACTION'
-        COMEDY = 3, 'COMEDY'
-        DRAMA = 4, 'DRAMA'
-        ROMANCE = 5, 'ROMANCE'
+    class Category(models.TextChoices):
+        HORROR = 'HORROR', 'HORROR'
+        ACTION = 'ACTION', 'ACTION'
+        COMEDY = 'COMEDY', 'COMEDY'
+        DRAMA = 'DRAMA', 'DRAMA'
+        ROMANCE = 'ROMANCE', 'ROMANCE'
 
     id_movie = models.AutoField(primary_key=True, db_index=True)
     title = models.CharField(max_length=40, null=True, blank=True)

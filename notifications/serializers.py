@@ -5,7 +5,7 @@ from notifications.models import EmailNotification
 
 
 class EmailNotificationsSerializer(serializers.ModelSerializer):
-    id_owner = UserSerializer(read_only=True)
+    id_owner = UserSerializer()
 
     class Meta:
         model = EmailNotification

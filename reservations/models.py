@@ -8,9 +8,9 @@ from screenings.models import Screening
 
 # Create your models here.
 class ReservedSeat(models.Model):
-    class Type(models.IntegerChoices):
-        STANDARD = 1, 'STANDARD'
-        VIP = 2, 'VIP'
+    class Type(models.TextChoices):
+        STANDARD = 'STANDARD', 'STANDARD'
+        VIP = 'VIP', 'VIP'
 
     id_seat = models.AutoField(primary_key=True, db_index=True)
     seat_type = models.CharField(max_length=8, choices=Type.choices, default=Type.STANDARD)
@@ -24,10 +24,10 @@ class ReservedSeat(models.Model):
 
 
 class Reservation(models.Model):
-    class Status(models.IntegerChoices):
-        FREE = 1, 'FREE'
-        RESERVED = 2, 'RESERVED'
-        BOOKED = 3, 'BOOKED'
+    class Status(models.TextChoices):
+        FREE = 'FREE', 'FREE'
+        RESERVED = 'RESERVED', 'RESERVED'
+        BOOKED = 'BOOKED', 'BOOKED'
 
     id_reservation = models.AutoField(primary_key=True, db_index=True)
     id_notification = models.OneToOneField(EmailNotification, on_delete=models.CASCADE)

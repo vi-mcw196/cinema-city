@@ -7,9 +7,9 @@ from screenings.models import Screening
 
 
 class ScreeningSerializer(serializers.ModelSerializer):
-    id_movie = MoviesSerializer(read_only=True)
-    id_owner = UserSerializer(read_only=True)
-    id_cinema_hall = CinemaHallSerializer(read_only=True)
+    id_movie = MoviesSerializer()
+    id_owner = UserSerializer()
+    id_cinema_hall = CinemaHallSerializer()
 
     class Meta:
         model = Screening
