@@ -13,7 +13,7 @@ class CinemaHall(models.Model):
     columns = models.IntegerField(null=False)
 
     class Meta:
-        ordering: ['-id_hall']
+        ordering = ['-id_hall']
 
     def __str__(self):
         return str(self.hall_number) + 's CinemaHall'
