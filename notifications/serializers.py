@@ -9,5 +9,5 @@ class EmailNotificationsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EmailNotification
-        read_only_fields = ['id_notification', 'send_date']
-        fields = ['id_notification', 'owner', 'Subject', 'email_body', 'send_date']
+        read_only_fields = ['id_notification']
+        fields = ['id_notification', 'id_owner', 'Subject', 'email_body', 'send_date']
