@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
 from authentication.serializers import UserSerializer
-from cinema_halls.models import Screening
 from cinema_halls.serializers import CinemaHallSerializer
 from movies.serializers import MoviesSerializer
+from screenings.models import Screening
 
 
 class ScreeningSerializer(serializers.ModelSerializer):

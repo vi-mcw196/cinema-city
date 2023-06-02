@@ -10,14 +10,14 @@ class Movie(models.Model):
         DRAMA = 4, 'DRAMA'
         ROMANCE = 5, 'ROMANCE'
 
-    id_movie = models.AutoField(primary_key=True)
+    id_movie = models.AutoField(primary_key=True, db_index=True)
     title = models.CharField(max_length=40)
     producer = models.CharField(max_length=40)
     cast = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     duration = models.IntegerField()
-    category = models.CharField(max_length=6, choices=Category.choices, default=Category.COMEDY)
-    rating = models.FloatField()
+    category = models.CharField(max_length=15, choices=Category.choices, default=Category.COMEDY)
+    rating = models.PositiveSmallIntegerField()
 
     class Meta:
         ordering = ['-category']

@@ -1,7 +1,7 @@
 from rest_framework import permissions
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-from cinema_halls.models import Screening
+from screenings.models import Screening
 from screenings.serializers import ScreeningSerializer
 
 

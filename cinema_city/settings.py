@@ -169,6 +169,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+# GMAIL settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
