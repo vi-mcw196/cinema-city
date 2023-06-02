@@ -7,7 +7,7 @@ from screenings.models import Screening
 
 
 # Create your models here.
-class ReservedSeat(models.Model):
+class Seat(models.Model):
     class Type(models.TextChoices):
         STANDARD = 'STANDARD', 'STANDARD'
         VIP = 'VIP', 'VIP'
@@ -15,6 +15,7 @@ class ReservedSeat(models.Model):
     id_seat = models.AutoField(primary_key=True, db_index=True)
     seat_type = models.CharField(max_length=8, choices=Type.choices, default=Type.STANDARD)
     seat_code = models.CharField(max_length=100)
+    is_reserved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-seat_type']
@@ -35,7 +36,7 @@ class Reservation(models.Model):
     id_notification = models.OneToOneField(EmailNotification, on_delete=models.CASCADE)
     id_screening = models.ForeignKey(Screening, on_delete=models.CASCADE)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    seat = models.ForeignKey(ReservedSeat, on_delete=models.CASCADE)
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
     reservation_status = models.CharField(max_length=8, choices=Status.choices, default=Status.FREE)
     date = models.DateField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -2,15 +2,15 @@ from rest_framework import serializers
 
 from authentication.serializers import UserSerializer
 from notifications.serializers import EmailNotificationsSerializer
-from reservations.models import Reservation, ReservedSeat
+from reservations.models import Reservation, Seat
 from screenings.serializers import ScreeningSerializer
 
 
 class ReservedSeatSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ReservedSeat
+        model = Seat
         read_only_fields = ['id_seat']
-        fields = ['id_seat', 'seat_type', 'seat_code']
+        fields = ['id_seat', 'seat_type', 'seat_code', 'is_reserved']
 
 
 class ReservationSerializer(serializers.ModelSerializer):
