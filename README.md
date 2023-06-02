@@ -1,4 +1,4 @@
-Income Expenses API
+# Cinema city API
 
 ## Installation steps
 
