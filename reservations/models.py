@@ -29,10 +29,10 @@ class Reservation(models.Model):
         BOOKED = 3, 'BOOKED'
 
     id_reservation = models.AutoField(primary_key=True, db_index=True)
-    id_notification = models.OneToOneField(EmailNotification, on_delete=models.CASCADE)
-    id_screening = models.ForeignKey(Screening, on_delete=models.CASCADE)
+    id_notification = models.OneToOneField(EmailNotification, on_delete=models.CASCADE, unique=True)
+    id_screening = models.ForeignKey(Screening, on_delete=models.CASCADE, unique=True)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    seat = models.ForeignKey(ReservedSeat, on_delete=models.CASCADE)
+    seat = models.ForeignKey(ReservedSeat, on_delete=models.CASCADE, unique=True)
     reservation_status = models.CharField(max_length=8, choices=Status.choices, default=Status.FREE)
     date = models.DateField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
