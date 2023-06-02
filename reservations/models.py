@@ -23,6 +23,8 @@ class ReservedSeat(models.Model):
         return self.seat_code
 
 
+# TODO: add validation in serializations for each model
+# TODO: create, validate and save models in serializers
 class Reservation(models.Model):
     class Status(models.TextChoices):
         FREE = 'FREE', 'FREE'
