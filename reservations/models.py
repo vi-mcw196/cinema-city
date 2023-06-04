@@ -24,8 +24,6 @@ class Seat(models.Model):
         return self.seat_code
 
 
-# TODO: add validation in serializations for each model
-# TODO: create, validate and save models in serializers
 class Reservation(models.Model):
     class Status(models.TextChoices):
         FREE = 'FREE', 'FREE'
@@ -63,3 +61,9 @@ class Reservation(models.Model):
 
     def __str__(self):
         return str(self.owner) + 's reservation'
+
+
+class TempReservation(models.Model):
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
+    screening = models.ForeignKey(Screening, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

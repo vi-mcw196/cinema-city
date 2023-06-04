@@ -19,7 +19,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-
 schema_view = get_schema_view(
     openapi.Info(
         title="CINEMA CITY API",
@@ -33,18 +32,18 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path('social_auth/', include(('social_auth.urls', 'social_auth'), namespace="social_auth")),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('api/api.json/', schema_view.without_ui(cache_timeout=0),name='schema-swagger-ui'),
+    path('api/api.json/', schema_view.without_ui(cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('movies/', include('movies.urls')),
     path('cinema_halls/', include('cinema_halls.urls')),
     path('screenings/', include('screenings.urls')),
-    path('email_notifications/', include('notifications.urls')),
+    # path('email_notifications/', include('notifications.urls')),
+    path('reservations/', include('reservations.urls')),
 ]
 
 handler404 = 'utils.views.handle404'
