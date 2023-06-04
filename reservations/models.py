@@ -51,9 +51,7 @@ class Reservation(models.Model):
 
             result = super().save(*args, **kwargs)
 
-            # Reload the object to ensure the version field was updated correctly
             self.refresh_from_db()
-
             return result
 
     class Meta:
