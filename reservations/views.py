@@ -41,7 +41,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
-        with transaction.atomic():  # ensure atomicity
+        with transaction.atomic():
             instance = self.get_object()
 
             serializer = self.get_serializer(instance, data=request.data, partial=True)

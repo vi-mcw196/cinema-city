@@ -2,10 +2,12 @@ from django.core.mail import send_mail
 from django.db import transaction
 from rest_framework import serializers
 
+from authentication.models import User
 from authentication.serializers import UserSerializer
 from cinema_city import settings
 from notifications.serializers import EmailNotificationsSerializer
 from reservations.models import Reservation, Seat, TempReservation
+from screenings.models import Screening
 from screenings.serializers import ScreeningSerializer
 from datetime import timedelta
 from django.utils import timezone
@@ -19,24 +21,37 @@ class ReservedSeatSerializer(serializers.ModelSerializer):
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-    id_notification = EmailNotificationsSerializer()
-    id_screening = ScreeningSerializer()
-    owner = UserSerializer()
-    seat = ReservedSeatSerializer()
-
+    # id_notification = EmailNotificationsSerializer()
+    id_screening = serializers.PrimaryKeyRelatedField(queryset=Screening.objects.all(), write_only=True)
+    screening_data = ScreeningSerializer(source='id_screening', read_only=True)
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
+    owner_data = UserSerializer(source='owner', read_only=True)
+    seat = serializers.PrimaryKeyRelatedField(queryset=Seat.objects.all(), write_only=True)
+    seat_data = ReservedSeatSerializer(source='seat', read_only=True)
     class Meta:
         model = Reservation
         read_only_fields = ['id_reservation', 'created_at']
-        fields = ['id_reservation', 'id_notification', 'id_screening', 'owner', 'seat', 'reservation_status', 'date',
-                  'created_at', 'updated_at', 'version']
+        fields = [
+            'id_reservation',
+            'id_screening',
+            'screening_data',
+            'owner',
+            'owner_data'
+            'seat',
+            'seat_data',
+            'reservation_status',
+            'date',
+            'created_at',
+            'updated_at',
+        ]
 
     def create(self, validated_data):
-        screening_data = validated_data.pop('id_screening')
+        screening_data = validated_data['id_screening']
         screening_serializer = ScreeningSerializer(data=screening_data)
         screening_serializer.is_valid(raise_exception=True)
         screening = screening_serializer.save()
 
-        seat_data = validated_data.pop('seat')
+        seat_data = validated_data['seat']
         seat_serializer = ReservedSeatSerializer(data=seat_data)
         seat_serializer.is_valid(raise_exception=True)
         seat = seat_serializer.save()
@@ -60,13 +75,13 @@ class ReservationSerializer(serializers.ModelSerializer):
 
                 if (
                         Reservation.objects.filter(seat=seat, screening=screening).exists()
-                        or validated_data['seat'].is_reserved
+                        or seat.is_reserved
                 ):
                     raise serializers.ValidationError("This seat is already reserved.")
 
                 # Mark seat as reserved
-                validated_data['seat'].is_reserved = True
-                validated_data['seat'].save()
+                seat.is_reserved = True
+                seat.save()
 
                 if self.instance is not None:
                     timediff = timezone.now() - self.instance.created_at
