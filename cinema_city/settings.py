@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import datetime
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -28,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'authentication.User'
 # Application definition
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -49,8 +52,33 @@ INSTALLED_APPS = [
     'movies',
     'notifications',
     'reservations',
-    'screenings'
+    'screenings',
+    'social_auth',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # 'allauth.socialaccount.providers.gitlab',
+    'allauth.socialaccount.providers.google',
+
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+SITE_ID = 1
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
@@ -73,12 +101,23 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
+
 ROOT_URLCONF = 'cinema_city.urls'
+
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+#
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -164,6 +203,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'cinema_city/static')]
 
 # GMAIL settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -184,3 +224,12 @@ MAX_SEATS = 100
 
 MIN_ROWS_COLUMNS = 1
 MAX_ROWS_COLUMNS = 100
+
+
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
+# ACCOUNT_EMAIL_REQUIRED = True
+
+# SOCIALACCOUNT_QUERY_EMAIL = True
+
+# ACCOUNT_SESSION_REMEMBER = True
