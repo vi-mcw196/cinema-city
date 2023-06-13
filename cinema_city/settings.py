@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = ['*']
 
@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     'crispy_forms',
-    'crispy_bootstrap4',
+    # 'crispy_bootstrap4',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -101,8 +101,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 
 ROOT_URLCONF = 'cinema_city.urls'
 
@@ -147,9 +147,14 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("SQL_DATABASE"),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
+        "OPTIONS": {'options': '-c timezone=UTC'}
     }
 }
 
@@ -203,7 +208,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'cinema_city/static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'cinema_city/static')]
 
 # GMAIL settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -226,10 +231,8 @@ MIN_ROWS_COLUMNS = 1
 MAX_ROWS_COLUMNS = 100
 
 
-ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/google/login/callback/'
 
-# ACCOUNT_EMAIL_REQUIRED = True
-
-# SOCIALACCOUNT_QUERY_EMAIL = True
-
-# ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_SESSION_REMEMBER = False

@@ -21,5 +21,17 @@ services:
       - POSTGRES_PASSWORD=03012003zz
       - POSTGRES_DB=ztw-cinema-world
 
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - web
+
 volumes:
   postgres_data:
