@@ -28,6 +28,7 @@ class ReservationSerializer(serializers.ModelSerializer):
     owner_data = UserSerializer(source='owner', read_only=True)
     seat = serializers.PrimaryKeyRelatedField(queryset=Seat.objects.all(), write_only=True)
     seat_data = ReservedSeatSerializer(source='seat', read_only=True)
+
     class Meta:
         model = Reservation
         read_only_fields = ['id_reservation', 'created_at']
@@ -36,7 +37,7 @@ class ReservationSerializer(serializers.ModelSerializer):
             'id_screening',
             'screening_data',
             'owner',
-            'owner_data'
+            'owner_data',
             'seat',
             'seat_data',
             'reservation_status',
